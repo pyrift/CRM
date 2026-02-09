@@ -1,0 +1,50 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="psycopg2-binary" />
+          <option value="python-dotenv" />
+          <option value="pillow" />
+          <option value="gunicorn" />
+          <option value="Django" />
+          <option value="djangorestframework" />
+          <option value="djangorestframework-simplejwt" />
+          <option value="PyJWT" />
+          <option value="asgiref" />
+          <option value="attrs" />
+          <option value="certifi" />
+          <option value="cffi" />
+          <option value="charset-normalizer" />
+          <option value="cryptography" />
+          <option value="defusedxml" />
+          <option value="django-cors-headers" />
+          <option value="django-environ" />
+          <option value="django-filter" />
+          <option value="djoser" />
+          <option value="drf-spectacular" />
+          <option value="idna" />
+          <option value="inflection" />
+          <option value="jsonschema" />
+          <option value="jsonschema-specifications" />
+          <option value="oauthlib" />
+          <option value="psycopg2" />
+          <option value="pycparser" />
+          <option value="python3-openid" />
+          <option value="PyYAML" />
+          <option value="referencing" />
+          <option value="requests" />
+          <option value="requests-oauthlib" />
+          <option value="rpds-py" />
+          <option value="social-auth-app-django" />
+          <option value="social-auth-core" />
+          <option value="sqlparse" />
+          <option value="typing_extensions" />
+          <option value="uritemplate" />
+          <option value="urllib3" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

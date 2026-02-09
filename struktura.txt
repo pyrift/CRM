@@ -1,0 +1,39 @@
+CRM/                          ← Loyiha ildizi (GitHub/Railway ga yuklaysiz)
+│
+├── crm_core/                 ← Asosiy Django loyiha
+│   ├── __init__.py
+│   ├── settings.py           ← Barcha sozlamalar (.env, INSTALLED_APPS)
+│   ├── urls.py               ← Asosiy URL lar
+│   ├── asgi.py
+│   └── wsgi.py
+│
+├── users/                    ← Xodimlar (faqat admin kengaytma)
+│   ├── __init__.py
+│   ├── models.py             ← UserProfile (ixtiyoriy)
+│   └── admin.py              ← User + Profile integratsiyasi
+│
+├── clients/                  ← Mijozlar
+│   ├── __init__.py
+│   ├── models.py             ← Client modeli
+│   └── admin.py              ← Admin panel uchun
+│
+├── leads/                    ← Arizalar
+│   ├── __init__.py
+│   ├── models.py             ← Lead modeli
+│   └── admin.py              ← Cheklangan huquqlar bilan
+│
+├── api/                      ← (Ixtiyoriy) API endpointlari
+│   ├── __init__.py
+│   ├── serializers.py
+│   ├── views.py
+│   └── urls.py
+│
+├── telegram_bot/             ← ✅ YANGI: Telegram bot logikasi
+│   ├── __init__.py
+│   ├── bot.py                ← pyTelegramBotAPI asosida
+│   └── apps.py               ← Django yuklaganda botni ishga tushirish
+│
+├── manage.py
+├── requirements.txt          ← pyTelegramBotAPI ham bor!
+├── .env                      ← Maxfiy kalitlar (GitHub ga QO'SHMANG!)
+└── README.md                 ← Qo'llanma (ixtiyoriy)
