@@ -1,9 +1,7 @@
 import threading
 import telebot
-from telegram import Update
 from django.conf import settings
-from clients.models import Client
-from .keyboard import manu, ariza_bolimi
+from .keyboard import manu, ariza_bolimi,shikoya_bolimi
 
 bot = telebot.TeleBot(settings.TELEGRAM_BOT_TOKEN)
 
@@ -26,45 +24,55 @@ def send_welcome(message):
     # f"🔗 Username: @{user.username}\n"
     # f"🌐 Til: {user.language_code}\n"
     # f"🤖 Botmi: {user.is_bot}"
+
+
 def next_menu(message):
     chat_id = message.chat.id
+
     if message.text == "ariza yuborish":
-        bot.send_message(chat_id, "arizani kriting" , reply_markup=ariza_bolimi())
+        bot.send_message(chat_id, "arizani turini kriting" , reply_markup=ariza_bolimi())
         bot.register_next_step_handler(message, ariza_malumto_olish)
         return
+
     if message.text == "shikoyatt yubooriish":
-        bot.send_message(chat_id, "shikoyatni kriting")
-        bot.register_next_step_handler(message, next_menu)
+        bot.send_message(chat_id, "shikoyatni turini kriting",reply_markup=shikoya_bolimi())
+        bot.register_next_step_handler(message, shikoyat_malumot_olish)
         return
+
     else:
         send_welcome(message)
         return
-def uzatuvchi(message):
-    chat_id = message.chat.id
-    info = {
-        "user": message.from_user.username,
-        "first_name": message.from_user.first_name,
-        "last_name": message.from_user.last_name,
-        "email": message.from_user.email,
 
-    }
+info_ariza={}
+info_shikoyat = {}
 def ariza_malumto_olish(message):
     chat_id = message.chat.id
     user = message.from_user
+    global info_ariza
+    info_ariza.update({
+        "user": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "chat id": chat_id,
+        "ariza turi": message.text,
+
+    })
 
     if message.text == "Sotib olish":
-        bot.send_message(chat_id, "Sotib olish")
-        bot.register_next_step_handler(message, ariza_malumto_olish)
+        bot.send_message(chat_id, "Sotib olish\n"
+                                  "iltimos nima kerak eklangini yozisng\n"
+                                  "qoshimcha malumotlar bilan ")
+        bot.register_next_step_handler(message, Ariza)
         return
 
     if message.text == "Ish sorash":
         bot.send_message(chat_id, "Ish sorash")
-        bot.register_next_step_handler(message, ariza_malumto_olish)
+        bot.register_next_step_handler(message, Ariza)
         return
 
     if message.text == "Boshqa":
         bot.send_message(chat_id, "Boshqa")
-        bot.register_next_step_handler(message, ariza_malumto_olish)
+        bot.register_next_step_handler(message, Ariza)
         return
 
     if  message.text == "Ortga":
@@ -73,9 +81,57 @@ def ariza_malumto_olish(message):
         return
 
     else:
-        ariza_malumto_olish(message)
+        next_menu(message)
         return
 
+def Ariza(message):
+    chat_id = message.chat.id
+    global info_ariza
+    info_ariza.update({"ariza malumoti": message.text})
+    bot.send_message(chat_id, "Ariza qabul qilindi",reply_markup=ariza_bolimi())
+    bot.register_next_step_handler(message, ariza_malumto_olish)
+    print("Ariza\n",info_ariza,"\n")
+#============================================================================================================================================================
+
+def shikoyat_malumot_olish(message):
+    chat_id = message.chat.id
+    user = message.from_user
+    bot.send_message(chat_id, "Tanlang")
+    global info_shikoyat
+    info_shikoyat.update({
+        "user": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "chat id": chat_id,
+        "shikoyat turi": message.text,
+
+    })
+    if message.text == "Botdan shkoyat":
+        bot.send_message(chat_id, "Botdan shikoyatni kiritng")
+        bot.register_next_step_handler(message, shikoyat)
+        return
+    if message.text == "Wepdan shikoyat":
+        bot.send_message(chat_id, "Wepdan shikoyatni kiriting")
+        bot.register_next_step_handler(message, shikoyat)
+        return
+    if message.text == "Boshqa shikoyat":
+        bot.send_message(chat_id, "Boshqa shikoyatni kiriting")
+        bot.register_next_step_handler(message, shikoyat)
+        return
+    if message.text == "Ortga":
+        bot.send_message(chat_id, "tanlang", reply_markup=manu())
+        bot.register_next_step_handler(message, next_menu)
+        return
+
+def shikoyat(message):
+    chat_id = message.chat.id
+    global info_shikoyat
+    info_shikoyat.update({"shuikoyat malumoti": message.text})
+    bot.send_message(chat_id, "shikoyat qabul qilindi",reply_markup=shikoya_bolimi())
+    bot.register_next_step_handler(message, shikoyat_malumot_olish)
+    print("shikoyat\n",info_shikoyat,"\n")
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def run_bot():
     """Botni polling rejimida ishga tushirish"""
     print("🤖 pyTelegramBotAPI bot ishga tushdi...")
