@@ -20,6 +20,12 @@ def send_welcome(message):
     #         "phone": "test"  # Telefon keyinchalik so'raladi
     #     }
     # )
+    # f"🆔 ID: {user.id}\n"
+    # f"👤 Ism: {user.first_name}\n"
+    # f"👥 Familiya: {user.last_name}\n"
+    # f"🔗 Username: @{user.username}\n"
+    # f"🌐 Til: {user.language_code}\n"
+    # f"🤖 Botmi: {user.is_bot}"
 def next_menu(message):
     chat_id = message.chat.id
     if message.text == "ariza yuborish":
@@ -45,34 +51,31 @@ def uzatuvchi(message):
 def ariza_malumto_olish(message):
     chat_id = message.chat.id
     user = message.from_user
-    contact = message.contact
-    if message.text == "Sotib olish":
-        bot.send_message(chat_id, "Sotib olish\n"
-        f"🆔 ID: {user.id}\n"
-        f"👤 Ism: {user.first_name}\n"
-        f"👥 Familiya: {user.last_name}\n"
-        f"🔗 Username: @{user.username}\n"
-        f"🌐 Til: {user.language_code}\n"
-        f"🤖 Botmi: {user.is_bot}"
-    )
 
+    if message.text == "Sotib olish":
+        bot.send_message(chat_id, "Sotib olish")
         bot.register_next_step_handler(message, ariza_malumto_olish)
         return
+
     if message.text == "Ish sorash":
         bot.send_message(chat_id, "Ish sorash")
         bot.register_next_step_handler(message, ariza_malumto_olish)
         return
+
     if message.text == "Boshqa":
         bot.send_message(chat_id, "Boshqa")
         bot.register_next_step_handler(message, ariza_malumto_olish)
         return
+
     if  message.text == "Ortga":
         bot.send_message(chat_id, "tanlang", reply_markup=manu())
         bot.register_next_step_handler(message, next_menu)
         return
+
     else:
         ariza_malumto_olish(message)
         return
+
 def run_bot():
     """Botni polling rejimida ishga tushirish"""
     print("🤖 pyTelegramBotAPI bot ishga tushdi...")
