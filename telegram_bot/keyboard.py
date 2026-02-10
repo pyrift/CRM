@@ -19,3 +19,15 @@ def ariza_bolimi():
     keyboard.add(boshqa)
     keyboard.add(ortga)
     return keyboard
+
+def shikoya_bolimi():
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    bot = types.KeyboardButton(text="Botdan shkoyat")
+    wep = types.KeyboardButton(text="Wepdan shikoyat")
+    boshqa = types.KeyboardButton(text="Boshqa")
+    ortga = types.KeyboardButton(text="Ortga")
+    keyboard.add(bot)
+    keyboard.add(wep)
+    keyboard.add(boshqa)
+    keyboard.add(ortga)
+    return keyboard
