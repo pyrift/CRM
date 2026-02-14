@@ -2,7 +2,7 @@ import threading
 import telebot
 from django.conf import settings
 from .keyboard import manu, ariza_bolimi,shikoya_bolimi
-
+import json
 bot = telebot.TeleBot(settings.TELEGRAM_BOT_TOKEN)
 
 @bot.message_handler(commands=['start'])
@@ -58,6 +58,9 @@ def next_menu(message):
 
 info_ariza={}
 info_shikoyat = {}
+arizaid_id = 1
+shikoyat_id = 1
+
 def ariza_malumto_olish(message):
     chat_id = message.chat.id
     user = message.from_user
@@ -68,21 +71,9 @@ def ariza_malumto_olish(message):
         "last_name": user.last_name,
         "chat id": chat_id,
         "ariza turi": message.text,
+        "id": arizaid_id
 
     })
-
-    if message.text == "Sotib olish":
-        bot.send_message(chat_id, "🛍️ Sotib olish\n"
-                                  "\n"
-                                  "Iltimos, sizga aynan nima kerakligini batafsil yozib qoldiring.\n"
-                                  "📌 Mahsulot nomi\n"
-                                  "📌 Mahsulot nomi\n"
-                                  "📌 Qo‘shimcha talab yoki izohlar\n"
-                                  "\n"
-                                  "Shunda sizga tez va aniq yordam bera olamiz 💬✨")
-        bot.register_next_step_handler(message, Ariza)
-        return
-
     if message.text == "Ish sorash":
         bot.send_message(chat_id,"👨‍💻 Ishga murojaat\n"
                          "\n"
@@ -128,6 +119,10 @@ def Ariza(message):
     bot.send_message(chat_id, "Ariza qabul qilindi",reply_markup=ariza_bolimi())
     bot.register_next_step_handler(message, ariza_malumto_olish)
     print("Ariza\n",info_ariza,"\n")
+    with open("json/info_ariza.json", "a") as file:
+        json.dump(info_ariza, file, indent=4)
+        global arizaid_id
+        arizaid_id += 1
 #============================================================================================================================================================
 
 def shikoyat_malumot_olish(message):
@@ -197,11 +192,15 @@ def shikoyat(message):
     bot.send_message(chat_id, "shikoyat qabul qilindi",reply_markup=shikoya_bolimi())
     bot.register_next_step_handler(message, shikoyat_malumot_olish)
     print("shikoyat\n",info_shikoyat,"\n")
+    with open("json/info_shikoyat.json", "a") as file:
+        json.dump(info_shikoyat, file, indent=4)
+        global shikoyat_id
+        shikoyat_id += 1
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def run_bot():
     """Botni polling rejimida ishga tushirish"""
-    print("🤖 pyTelegramBotAPI bot ishga tushdi...")
+    print("pyTelegramBotAPI bot ishga tushdi...")
     bot.infinity_polling()  # Doimiy ishlash
 
 def start_bot():

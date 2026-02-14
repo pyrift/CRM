@@ -10,11 +10,9 @@ def manu():
 def ariza_bolimi():
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    sotib_olish = types.KeyboardButton(text="Sotib olish ")
     ish_sorash = types.KeyboardButton(text="Ish sorash")
     boshqa = types.KeyboardButton(text="Boshqa")
     ortga = types.KeyboardButton(text="Ortga")
-    keyboard.add(sotib_olish)
     keyboard.add(ish_sorash)
     keyboard.add(boshqa)
     keyboard.add(ortga)
