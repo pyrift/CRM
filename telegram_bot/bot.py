@@ -3,26 +3,33 @@ import telebot
 from django.conf import settings
 from .keyboard import manu, ariza_bolimi,shikoya_bolimi
 import json
+from .bot_admin import get_information
 bot = telebot.TeleBot(settings.TELEGRAM_BOT_TOKEN)
 
 @bot.message_handler(commands=['start'])
-def send_welcome(message):
+def tekshruv(message):
     chat_id = message.chat.id
-    bot.send_message(chat_id,"🏠 Bosh Menu\n"
-                     "\n"
-                     "Salom! 🤗 Bizning bot orqali siz quyidagilarni qilishingiz mumkin:\n"
-                     "📌 Ish topish\n"
-                     "📌 Masulot sotib olish\n"
-                     "📌 Bot yoki web bilan bog‘liq shikoyatlar yuborish\n"
-                     "\n"
-                     "💡 Eslatma: Bot faqat ma’lumotlarni qabul qiladi va adminga yuboradi.\n"
-                     "Ma’lumot admin tomonidan tasdiqlansa, web saytimizga uzatiladi.\n"
-                     "Shundan keyin siz kerakli odam bilan bog‘lanib ish topishingiz yoki masulot sotib olishingiz mumkin.\n"
-                     "\n"
-                     "❌ Bot orqali bevosita ishchi qabul qilish yoki mahsulot sotish mumkin emas, faqat ma’lumot yuboriladi."
+    a = "@Dev_2077"
+    username = message.from_user.username
+    if username in a :
+        bot.send_message(chat_id,"salom admin")
+        bot.register_next_step_handler(message, get_information)
+    else:
+        bot.send_message(chat_id, "🏠 Bosh Menu\n"
+                                  "\n"
+                                  "Salom! 🤗 Bizning bot orqali siz quyidagilarni qilishingiz mumkin:\n"
+                                  "📌 Ish topish\n"
+                                  "📌 Masulot sotib olish\n"
+                                  "📌 Bot yoki web bilan bog‘liq shikoyatlar yuborish\n"
+                                  "\n"
+                                  "💡 Eslatma: Bot faqat ma’lumotlarni qabul qiladi va adminga yuboradi.\n"
+                                  "Ma’lumot admin tomonidan tasdiqlansa, web saytimizga uzatiladi.\n"
+                                  "Shundan keyin siz kerakli odam bilan bog‘lanib ish topishingiz yoki masulot sotib olishingiz mumkin.\n"
+                                  "\n"
+                                  "❌ Bot orqali bevosita ishchi qabul qilish yoki mahsulot sotish mumkin emas, faqat ma’lumot yuboriladi."
 
-                     ,reply_markup=manu())
-    bot.register_next_step_handler(message, next_menu)
+                         , reply_markup=manu())
+        bot.register_next_step_handler(message, next_menu)
     # user = message.from_user
     # client, created = Client.objects.get_or_create(
     #     telegram_id=user.id,
@@ -119,7 +126,7 @@ def Ariza(message):
     bot.send_message(chat_id, "Ariza qabul qilindi",reply_markup=ariza_bolimi())
     bot.register_next_step_handler(message, ariza_malumto_olish)
     print("Ariza\n",info_ariza,"\n")
-    with open("json/info_ariza.json", "a") as file:
+    with open("json_data/info_ariza.json", "a") as file:
         json.dump(info_ariza, file, indent=4)
         global arizaid_id
         arizaid_id += 1
@@ -192,7 +199,7 @@ def shikoyat(message):
     bot.send_message(chat_id, "shikoyat qabul qilindi",reply_markup=shikoya_bolimi())
     bot.register_next_step_handler(message, shikoyat_malumot_olish)
     print("shikoyat\n",info_shikoyat,"\n")
-    with open("json/info_shikoyat.json", "a") as file:
+    with open("json_data/info_shikoyat.json", "a") as file:
         json.dump(info_shikoyat, file, indent=4)
         global shikoyat_id
         shikoyat_id += 1
