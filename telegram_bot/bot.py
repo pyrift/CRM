@@ -1,7 +1,7 @@
 import threading
 import telebot
 from django.conf import settings
-from .keyboard import manu, ariza_bolimi,shikoya_bolimi
+from .keyboard import manu, ariza_bolimi,shikoya_bolimi,admin_menu
 import json
 from .bot_admin import get_information
 bot = telebot.TeleBot(settings.TELEGRAM_BOT_TOKEN)
@@ -12,7 +12,7 @@ def tekshruv(message):
     a = "@Dev_2077"
     username = message.from_user.username
     if username in a :
-        bot.send_message(chat_id,"salom admin")
+        bot.send_message(chat_id,"salom admin",reply_markup=admin_menu())
         bot.register_next_step_handler(message, get_information)
     else:
         bot.send_message(chat_id, "🏠 Bosh Menu\n"

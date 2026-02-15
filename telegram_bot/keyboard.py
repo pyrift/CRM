@@ -29,3 +29,12 @@ def shikoya_bolimi():
     keyboard.add(boshqa)
     keyboard.add(ortga)
     return keyboard
+def admin_menu():
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    shikoyat_viwe = types.KeyboardButton(text="shikoyatlarni korish")
+    arizlarni_viwe= types.KeyboardButton(text="arizlarni korish")
+    add_admin = types.KeyboardButton(text="admin qoshish")
+    keyboard.add(shikoyat_viwe)
+    keyboard.add(arizlarni_viwe)
+    keyboard.add(add_admin)
+    return keyboard
